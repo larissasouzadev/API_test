@@ -1,3 +1,6 @@
 from django.urls import path,include
-
-urlpatterns = []
+from setup import views 
+from setup.views import ClientAPIView
+urlpatterns = [
+    path('client_get/',ClientAPIView.as_view(), name='client_get/' )
+]
