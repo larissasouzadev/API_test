@@ -30,9 +30,43 @@ class ClientAPIView(APIView):
         else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST )
         
-                
+class CategoryAPIView(APIView):  
+    permission_classes = [AllowAny]
 # it may process one by one get(category)
+    def get(self, request):
+        if request.method =="GET":
+            queryset = Category.objects.all()
+            serializer = CategorySerializers(queryset, many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        if request.method =="POST":
+            serializer = CategorySerializers(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
- # it may process one by one post(category)
+
   # it may process one by one get(Sales)
+class SalesAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        if request.method =="GET":
+            queryset = Sales.objects.all()
+            serializer = SaleSerializers(queryset, many= True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    # it may process one by one post(sales)
+    def post(self, request):
+        if request.method =="POST":
+           serializer = SaleSerializer(data=request.data)
+           if serializer.is_valid():
+               serializer.save()
+               return Response(serializer.data, status=status.HTTP_201_CREATED)
+           else:
+               return Response(serializer.errors, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else: 
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST )
