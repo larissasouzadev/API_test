@@ -14,6 +14,12 @@ from rest_framework.permissions import AllowAny
 # it may process one by one get(client)
 class ClientAPIView(APIView):
     permission_classes = [AllowAny]
+    def get_by_id(self, request, pk):
+        try:
+            queryset = Client.objects.get(pk=pk)
+        except Client.DoesNotExist:
+            raise: 
+            return Response(serializer.errors, sa)
     def get( self,request): 
         if request.method =="GET":
             queryset = Client.objects.all()
